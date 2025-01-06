@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+<head>
+
+</head>
+
+<body>
+    <header>
+        <h1>TIME RUSHING</h1>
+    </header>
+
+    <div class = "task-listing">
+        <h2>Enter your task</h2>
+        <label for="taskItem">Task Item</label> <br>
+        <input type = "text" id = "taskItem" name = "taskItemInput" placeholder="Enter the task title">
+
+        <br>
+        <label for="duration">Duration (hh:mm)</label> <br>
+        <input type="text" id="timeInput" name="timeInput" placeholder="hh:mm" pattern="[0-2][0-9]:[0-5][0-9]">
+    </div>
+
+    <div class = "button-container"> 
+        <button id = "nextButton">Next</button>
+        <button id = "finishButton">Done</button>
+    </div>
+
+    <script src = "../JS/script.js"></script>
+
+</body>
+</html>
