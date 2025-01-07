@@ -2,13 +2,21 @@
 let schedule = [];
 
 function addNewItem(){
-    let taskName = document.querySelector("#taskItem");
-    let taskDuration = document.querySelector("#timeInput");
-    schedule.push(taskName, taskDuration);
+    let taskName = document.querySelector("#taskItem").value;
+    let taskDuration = document.querySelector("#timeInput").value;
+    let task = {
+        name:taskName,
+        duration: taskDuration
+    };
+
+    schedule.push(task);
+
+    document.querySelector("#taskItem").value = '';
+    document.querySelector("#timeInput").value = '';
 }
 
-
 function CountDown(){
+    window.location.href = "../HTML/countdown.html";
     for (let i = 0; i < schedule.length; i++) {
         CountDownMachine(schedule[0][i]);
     }
