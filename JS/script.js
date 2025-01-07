@@ -10,16 +10,14 @@ function addNewItem(){
     };
 
     schedule.push(task);
-
-    document.querySelector("#taskItem").value = '';
-    document.querySelector("#timeInput").value = '';
 }
 
 function CountDown(){
     window.location.href = "../HTML/countdown.html";
     for (let i = 0; i < schedule.length; i++) {
-        CountDownMachine(schedule[0][i]);
+        CountDownMachine(schedule[i].duration);
     }
+
 }
 
 function CountDownMachine(timeString){
@@ -43,6 +41,7 @@ function CountDownMachine(timeString){
         const s = (totalSeconds % 60).toString().padStart(2, "0");
 
         console.log(`${h}:${m}:${s}`);
+        document.getElementById('timeCountDown').innerText = `${h}:${m}:${s}`;
     }, 1000); // Update every second
 }
 
