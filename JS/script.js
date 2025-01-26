@@ -1,32 +1,39 @@
+var taskList = [];
 
-let schedule = [];
+function printTaskList(){
+    let taskHTML = "";
+    for (let i in taskList){
+        taskHTML += `<li>Task: ${taskList[i].task}, Time: ${taskList[i].time}</li>`;
+    }
+    return taskHTML;
+}
 
 function addNewItem(){
-    let taskName = document.querySelector("#taskItem").value;
-    let taskDuration = document.querySelector("#timeInput").value;
-    let task = {
-        name:taskName,
-        duration: taskDuration
-    };
+    var taskIndex = document.getElementById("taskItem").value;
+    var taskTimeBound = document.getElementById("timeInput").value;
 
-    schedule.push(task);
+    taskList.push({task: taskIndex, time: taskTimeBound});
+    document.getElementById("taskList_Index").innerHTML = printTaskList();
 }
 
-function CountDown(){
-    window.location.href = "../HTML/countdown.html";
-    for (let i = 0; i < schedule.length; i++) {
-        CountDownMachine(schedule[i].duration);
-    }
+const element = document.getElementById("nextButton");
+element.addEventListener("click", addNewItem);
+
+// -----------------------
+function countDown(){
+    localStorage.setItem('taskList', JSON.stringify(taskList));
+    window.location.href = './countdown.html';
 }
 
 
-// add new item button
-const next = document.getElementById("nextButton");
-next.addEventListener("click", addNewItem);
 
 
 
-// 
-const finish = document.getElementById("finishButton");
-finish.addEventListener("click", CountDown);
 
+
+
+
+
+
+// Incorrect: addNewItem() — This immediately invokes the function when the script runs.
+// Correct: addNewItem — This passes a reference to the function, which will only execute when the button is clicked.

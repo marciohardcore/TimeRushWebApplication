@@ -6,31 +6,36 @@
 </head>
 
 <body>
-    <div class = "work-container">
+    <div class="container">
+        <h2>Task Countdown Tracker</h2>
 
+        <div class = "taskList">
+            <h3>Task List</h3>
+            <p id = "taskList_Index" ></p>
+        </div>
+    
+        <!-- Work tasks container -->
+        <div class="work-container">
+            <h3>Current task:</h3>
+            <p id = "noti"></p>
+            <ul id="taskList"></ul>
+        </div>
 
+        <!-- Countdown timer display -->
+        <div class="counting-time">
+            <label for="timeCountDown">Countdown:</label>
+            <span id="timeCountDown">00:00:00</span>
+            <button onclick="startCountdown()">Start Countdown</button>
+        </div>
 
+        <!-- Finished tasks container -->
+        <div class="finish-container">
+            <h3>Finished Tasks</h3>
+            <ul id="finishedTasks"></ul>
+        </div>
     </div>
 
-    <div class="counting-time">
-        <label for="timeCountDown">Countdown:</label>
-        <span id="timeCountDown">00:00:00</span>
-            
-        <!-- Clock counting down -->
-
-        <!-- When the clock is down to 0, ask if the task is done or not -->
-
-        <!-- If done then move to finish container -->
-
-        <!-- Else add the task at the bottom of the list, with a % next to-->
-    </div>
-
-
-    <div class = "finish-container">
-
-    </div>
-
-    <script src = "../JS/countdown.js"> </script>
+    <script src="../JS/countdown.js"></script>
 </body>
 
 </html>
