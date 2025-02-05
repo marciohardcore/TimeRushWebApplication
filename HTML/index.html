@@ -9,24 +9,37 @@
 </head>
 
 <body>
+    <!-- <div class="ad-box">
+        <h3>Sponsored</h3>
+        <p>Check out our latest product, designed to boost your productivity!</p>
+        <a href="https://www.example.com" target="_blank">
+            <img src="ad-image.jpg" alt="Product Ad" />
+        </a>
+    </div> -->
+
     <header>
-        <h1>TIME RUSHING</h1>
+        <h1 class = "title">TIME RUSHING</h1>
     </header>
 
+    <div class = "introduction">
+        <p>TimeRush is a web application designed to help you stay on track with your tasks. Whether you're a student managing assignments or an office worker juggling deadlines, TimeRush provides a structured approach to time management. The countdown timer keeps you focused while the performance reviews give insights on how you can be more productive!
+        </p>
+    </div>
+    
     <div class = "taskList">
-        <h2>Task List: </h2>
+        <h2>Task List</h2>
         <p id = "taskList_Index" ></p>
     </div>
 
     <div class="task-listing">
-        <h2>Enter your task</h2>
+        <h2>What's on your list today</h2>
 
-        <label for="taskItem">Task Item</label><br>
+        <label for="taskItem">Task Name</label><br>
         <input type="text" id="taskItem" name="taskItemInput" placeholder="Enter the task title">
 
         <br>
 
-        <label for="timeInput">Duration (hh:mm:ss)</label><br>
+        <label for="timeInput">Duration</label><br>
         <input type="text" id="timeInput" name="timeInput" 
                 placeholder="hh:mm" 
                 pattern="([0-1][0-9]|2[0-3]):[0-5][0-9]" 
@@ -34,12 +47,31 @@
     </div>
 
     <div class="button-container">
-        <!-- <button id="nextButton" onclick="addNewItem()">Next</button> -->
         <button id="nextButton">Next</button>
         <button id="finishButton" onclick="countDown()">Done</button>
     </div>
 
+    <div class = "theme_container">
+        <h2>Theme</h2>
+        <div class="box" id = "box1"></div>
+        <div class="box" id = "box2">
+            <img src = "../theme/e23f47543257a934d01b071c06580b11.jpg" width="200" height="100"> 
+        </div>
+        <div class="box" id = "box3">
+            <img src = "../theme/images (1).jpg" width="200" height="100"> 
+        </div>
+    </div>
     <script src="../JS/script.js"></script>
+
+    
+        
+    
+    <div>
+        <footer>Footer</footer>
+        <p>Author: Marcio Chen, Bao Ngoc, Dit Hon, Minh Chau<br>
+        <a href="mailto:timerushforads@gmail.com">timerushforads@gmail.com</a></p>
+          
+    </div>
 </body>
 
 </html>

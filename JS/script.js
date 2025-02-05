@@ -19,15 +19,26 @@ function addNewItem(){
 const element = document.getElementById("nextButton");
 element.addEventListener("click", addNewItem);
 
-// -----------------------
 function countDown(){
     localStorage.setItem('taskList', JSON.stringify(taskList));
     window.location.href = './countdown.html';
 }
 
+document.getElementById("box3").addEventListener("click", function() {
+    alert("Image clicked"); // Log to check if the click is detected
+    changeBackground();
+});
 
-
-
+function changeBackground() {
+    var imgSrc = document.querySelector('#box3 img').src; // Get the image source
+    console.log("Image source:", imgSrc); // Log the image source to ensure it's correct
+    if (imgSrc) {
+        document.body.style.backgroundImage = 'url(' + imgSrc + ')'; // Set the background of the body
+        document.body.style.backgroundSize = 'cover'; // Optional, to make the background cover the whole page
+    } else {
+        console.log("Image not found or not loaded correctly.");
+    }
+}
 
 
 

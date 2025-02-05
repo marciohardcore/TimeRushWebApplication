@@ -2,37 +2,44 @@
 <html lang="en">
 
 <head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <title>Task Countdown Tracker</title>
 </head>
 
 <body>
     <div class="container">
-        <h2>Task Countdown Tracker</h2>
+        <header>
+            <h1 class="title">Task Countdown Tracker</h1>
+        </header>
 
-        <div class = "taskList">
-            <h3>Task List</h3>
-            <p id = "taskList_Index" ></p>
-        </div>
-    
-        <!-- Work tasks container -->
-        <div class="work-container">
-            <h3>Current task:</h3>
-            <p id = "noti"></p>
+        <section class="task-list">
+            <h2>Task List</h2>
+            <p id="taskList_Index"></p>
+        </section>
+
+        <section class="work-container">
+            <h2>Current Task</h2>
+            <p id="noti"></p>
             <ul id="taskList"></ul>
-        </div>
+        </section>
 
-        <!-- Countdown timer display -->
-        <div class="counting-time">
+        <section class="countdown-timer">
+            <h2>Countdown Timer</h2>
             <label for="timeCountDown">Countdown:</label>
             <span id="timeCountDown">00:00:00</span>
-            <button onclick="startCountdown()">Start Countdown</button>
-        </div>
+            <button id="startButton">Start Countdown</button>
 
-        <!-- Finished tasks container -->
-        <div class="finish-container">
-            <h3>Finished Tasks</h3>
+            <div class="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+        </section>
+
+        <section class="finished-tasks">
+            <h2>Finished Tasks</h2>
             <ul id="finishedTasks"></ul>
-        </div>
+        </section>
     </div>
 
     <script src="../JS/countdown.js"></script>

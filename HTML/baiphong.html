@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Input</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .timer-container {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        input {
+            font-size: 20px;
+            padding: 10px;
+            width: 120px;
+            text-align: right; /* Align text to the right */
+            direction: rtl; /* Reverse the input flow to make numbers go from right to left */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .timer-display {
+            font-size: 48px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="timer-container">
+        <h2>Set Timer (hhmm format)</h2>
+        <input type="text" id="timeInput" placeholder="hhmm" maxlength="4" />
+        <br>
+        <button id="startButton">Start Timer</button>
+        <div class="timer-display" id="timerDisplay">00:00</div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timer;
+        let isRunning = false;
+        let timeRemaining = 0;
+
+        // Event listener for the input field
+        document.getElementById("timeInput").addEventListener("input", function () {
+            let input = document.getElementById("timeInput").value;
+            // Automatically insert colon after the first 2 digits (hh:mm)
+            if (input.length === 2) {
+                input = input + ":";
+            }
+            if (input.length <= 5) {
+                document.getElementById("timeInput").value = input;
+            }
+        });
+
+        // Start button event listener
+        document.getElementById("startButton").addEventListener("click", function () {
+            const timeInput = document.getElementById("timeInput").value;
+            const [hours, minutes] = timeInput.split(":").map(Number);
+
+            // Validate input and ensure it's a valid time format
+            if (!isRunning && hours >= 0 && minutes >= 0 && minutes < 60 && timeInput.length === 5) {
+                timeRemaining = (hours * 60 * 60) + (minutes * 60);
+                isRunning = true;
+                startTimer();
+            } else {
+                alert("Please enter a valid time (hh:mm).");
+            }
+        });
+
+        function startTimer() {
+            timer = setInterval(function () {
+                if (timeRemaining <= 0) {
+                    clearInterval(timer);
+                    isRunning = false;
+                    document.getElementById("timerDisplay").textContent = "00:00";
+                    alert("Time's up!");
+                } else {
+                    timeRemaining--;
+                    updateTimerDisplay();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(timeRemaining / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = timeRemaining % 60;
+
+            // Format time in hh:mm:ss
+            document.getElementById("timerDisplay").textContent =
+                `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
+        }
+
+        function padZero(num) {
+            return num < 10 ? "0" + num : num;
+        }
+    </script>
+
+</body>
+
+</html>

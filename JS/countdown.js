@@ -1,11 +1,15 @@
 var taskList = JSON.parse(localStorage.getItem('taskList')) || [];
 var currentTask;
+var totalTime, timeLeft, interval;
+
 document.addEventListener("DOMContentLoaded", function () {
     if (taskList.length > 0) {
         document.getElementById("taskList_Index").innerHTML = printTaskList();
         document.getElementById("taskList").textContent = taskList[0].task;
         document.getElementById("timeCountDown").textContent = taskList[0].time;
     }
+
+    document.getElementById("startButton").addEventListener("click", startCountdown);
 });
 
 function parseTimeToSeconds(timeString) {
@@ -19,80 +23,78 @@ function startCountdown() {
         return;
     }
 
-    // Set current task
+    if (interval) clearInterval(interval); // Clear existing countdown
+
     currentTask = taskList[0];
+    totalTime = parseTimeToSeconds(currentTask.time);
+    timeLeft = totalTime;
+    
+    updateProgressBar(); // Reset progress bar
 
-    // Parse the task time into seconds
-    let timer = parseTimeToSeconds(currentTask.time);
-
-    // Start countdown
-    const interval = setInterval(() => {
-        let hours = Math.floor(timer / 3600);
-        let minutes = Math.floor((timer % 3600) / 60);
-        let seconds = timer % 60;
+    interval = setInterval(() => {
+        let hours = Math.floor(timeLeft / 3600);
+        let minutes = Math.floor((timeLeft % 3600) / 60);
+        let seconds = timeLeft % 60;
 
         document.getElementById("timeCountDown").textContent = 
             `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-        if (timer <= 0) {
+        updateProgressBar();
+
+        if (timeLeft <= 0) {
             clearInterval(interval);
             askTaskCompletion();
         } else {
-            timer--;
+            timeLeft--;
         }
     }, 1000);
 }
 
-// Function to display tasks
-function printTaskList(){
-    let taskHTML = "";
-    for (let i = 0; i < taskList.length; i++) {
-        taskHTML += `<li>Task: ${taskList[i].task}, Time: ${taskList[i].time}</li>`;
-    }
-    return taskHTML;
+function updateProgressBar() {
+    let percentage = (timeLeft / totalTime) * 100; // Reverse the progress
+    document.getElementById("progress-bar").style.width = `${percentage}%`;
 }
 
-// Function to ask if the task is done when countdown ends
+function printTaskList() {
+    return taskList.map(task => `<li>Task: ${task.task}, Time: ${task.time}</li>`).join('');
+}
+
 function askTaskCompletion() {
     const isDone = confirm("Is the task done?");
     if (isDone) {
         moveToFinishContainer();
-        taskList.splice(0, 1);  // Remove first task from the list
-
+        taskList.shift(); // Remove the first task
     } else {
-        taskList.splice(0, 1);  // Remove first task from the list
-        taskList.push(currentTask);
+        taskList.push(taskList.shift()); // Move the task to the end
         addTaskBackToList();
     }
-    localStorage.setItem('taskList', JSON.stringify(taskList));  // Save updated task list
-    document.getElementById("taskList_Index").innerHTML = printTaskList();  // Update the displayed task list
+
+    localStorage.setItem('taskList', JSON.stringify(taskList));
+    document.getElementById("taskList_Index").innerHTML = printTaskList();
+
     if (taskList.length > 0) {
-        // Check and start countdown for the next task
         document.getElementById("taskList").textContent = taskList[0].task;
         document.getElementById("timeCountDown").textContent = taskList[0].time;
-        startCountdown();  // Start countdown for next task
+        startCountdown();
     } else {
         alert("All tasks are completed!");
     }
-
 }
 
-// Move task to finished container
 function moveToFinishContainer() {
-    document.querySelector('.finish-container').innerHTML += `<li>Task: ${currentTask.task}, Time: ${currentTask.time}</li>`;
+    document.querySelector('.finished-tasks ul').innerHTML += `<li>Task: ${currentTask.task}, Time: ${currentTask.time}</li>`;
 }
 
-// Sleep function that returns a promise
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Add task back to the list with progress %
 function addTaskBackToList() {
-    document.getElementById('noti').innerHTML += `<p>Task "${currentTask.task}" added back with progress</p>`;
-    
+    const notiElement = document.getElementById('noti');
+    notiElement.innerHTML = `<p>Task "${currentTask.task}" added back with progress</p>`;
+    notiElement.style.visibility = 'visible';
+
     sleep(2000).then(() => {
-        // Hide the notification after 2 seconds
-        document.getElementById('noti').style.visibility = 'hidden';
+        notiElement.style.visibility = 'hidden';
     });
 }
