@@ -1,4 +1,4 @@
-var taskList = JSON.parse(localStorage.getItem('taskList')) || [];
+var taskList = JSON.parse(localStorage.getItem('taskList') || '[]');
 var currentTask;
 var totalTime, timeLeft, interval;
 
@@ -9,7 +9,15 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("timeCountDown").textContent = taskList[0].time;
     }
 
-    document.getElementById("startButton").addEventListener("click", startCountdown);
+    const startButton = document.getElementById("startButton");
+    if (startButton) {
+        startButton.addEventListener("click", startCountdown);
+    }
+
+    const openPIP = document.getElementById("popup");
+    if (openPIP) {
+        openPIP.addEventListener("click", openPiP);
+    }
 });
 
 function parseTimeToSeconds(timeString) {
@@ -29,7 +37,7 @@ function startCountdown() {
     totalTime = parseTimeToSeconds(currentTask.time);
     timeLeft = totalTime;
     
-    updateProgressBar(); // Reset progress bar
+    resetProgressBar();
 
     interval = setInterval(() => {
         let hours = Math.floor(timeLeft / 3600);
@@ -50,9 +58,19 @@ function startCountdown() {
     }, 1000);
 }
 
+function resetProgressBar() {
+    let progressBar = document.getElementById("progress-bar");
+    if (progressBar) {
+        progressBar.style.width = '100%';
+    }
+}
+
 function updateProgressBar() {
-    let percentage = (timeLeft / totalTime) * 100; // Reverse the progress
-    document.getElementById("progress-bar").style.width = `${percentage}%`;
+    let percentage = (timeLeft / totalTime) * 100;
+    let progressBar = document.getElementById("progress-bar");
+    if (progressBar) {
+        progressBar.style.width = `${percentage}%`;
+    }
 }
 
 function printTaskList() {
@@ -85,16 +103,98 @@ function moveToFinishContainer() {
     document.querySelector('.finished-tasks ul').innerHTML += `<li>Task: ${currentTask.task}, Time: ${currentTask.time}</li>`;
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function addTaskBackToList() {
     const notiElement = document.getElementById('noti');
-    notiElement.innerHTML = `<p>Task "${currentTask.task}" added back with progress</p>`;
-    notiElement.style.visibility = 'visible';
+    if (notiElement) {
+        notiElement.innerHTML = `<p>Task "${currentTask.task}" added back with progress</p>`;
+        notiElement.style.visibility = 'visible';
 
-    sleep(2000).then(() => {
-        notiElement.style.visibility = 'hidden';
-    });
+        setTimeout(() => {
+            notiElement.style.visibility = 'hidden';
+        }, 2000);
+    }
+}
+
+async function openPiP() {
+    if (!('documentPictureInPicture' in window)) {
+        alert('documentPictureInPicture API not supported.');
+        return;
+    }
+
+    try {
+        const pipWindow = await documentPictureInPicture.requestWindow({
+            width: 300,
+            height: 180
+        });
+
+        // Style the PiP window
+        Object.assign(pipWindow.document.body.style, {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#222',
+            color: '#fff',
+            fontSize: '20px',
+            fontFamily: 'Arial, sans-serif',
+            padding: '10px'
+        });
+
+        // Current task display
+        const taskNameElement = document.createElement("div");
+        taskNameElement.textContent = taskList.length > 0 ? `Current: ${taskList[0].task}` : "No Task";
+        taskNameElement.style.marginBottom = '5px';
+        pipWindow.document.body.appendChild(taskNameElement);
+
+        // Timer display
+        const timerElement = document.createElement("div");
+        timerElement.textContent = document.getElementById("timeCountDown").textContent;
+        timerElement.style.marginBottom = '10px';
+        pipWindow.document.body.appendChild(timerElement);
+
+        // Progress bar container
+        const progressBarContainer = document.createElement("div");
+        Object.assign(progressBarContainer.style, {
+            width: '100%',
+            height: '10px',
+            backgroundColor: '#555',
+            borderRadius: '5px',
+            overflow: 'hidden'
+        });
+        pipWindow.document.body.appendChild(progressBarContainer);
+
+        // Progress bar
+        const progressBar = document.createElement("div");
+        Object.assign(progressBar.style, {
+            height: '100%',
+            width: '0%',
+            backgroundColor: '#4CAF50',
+            transition: 'width 0.5s'
+        });
+        progressBarContainer.appendChild(progressBar);
+
+        // Upcoming task display
+        const upcomingTask = document.createElement("div");
+        upcomingTask.textContent = taskList.length > 1 ? `Next: ${taskList[1].task}` : "No upcoming task";
+        upcomingTask.style.marginTop = '10px';
+        pipWindow.document.body.appendChild(upcomingTask);
+
+        // Function to update the PiP window dynamically
+        setInterval(() => {
+            timerElement.textContent = document.getElementById("timeCountDown").textContent;
+
+            let mainProgressBar = document.getElementById("progress-bar");
+            if (mainProgressBar) {
+                progressBar.style.width = mainProgressBar.style.width;
+            }
+
+            // Update current and upcoming task dynamically
+            taskNameElement.textContent = taskList.length > 0 ? `Current: ${taskList[0].task}` : "No Task";
+            upcomingTask.textContent = taskList.length > 1 ? `Next: ${taskList[1].task}` : "No upcoming task";
+
+        }, 500);
+
+    } catch (error) {
+        console.error('Failed to open PiP window:', error);
+    }
 }

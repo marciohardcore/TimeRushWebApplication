@@ -1,123 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timer Input</title>
+    <title>Popup Window</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        }
+        #popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            display: none;
+            animation: slideIn 0.3s ease-in-out;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        #popup h4 {
             margin: 0;
         }
-
-        .timer-container {
-            text-align: center;
-            padding: 20px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
+        #popup p {
+            font-size: 14px;
         }
-
-        input {
-            font-size: 20px;
-            padding: 10px;
-            width: 120px;
-            text-align: right; /* Align text to the right */
-            direction: rtl; /* Reverse the input flow to make numbers go from right to left */
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
             cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .timer-display {
-            font-size: 48px;
-            margin-top: 20px;
             font-weight: bold;
         }
     </style>
 </head>
-
 <body>
-
-    <div class="timer-container">
-        <h2>Set Timer (hhmm format)</h2>
-        <input type="text" id="timeInput" placeholder="hhmm" maxlength="4" />
-        <br>
-        <button id="startButton">Start Timer</button>
-        <div class="timer-display" id="timerDisplay">00:00</div>
+    <h1>Trang Web Chính</h1>
+    <p>Chuyển tab để thấy pop-up thông báo.</p>
+    
+    <div id="popup">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <h4>Thông báo</h4>
+        <p>Bạn đang ở tab khác nhưng thông báo này vẫn hiển thị.</p>
     </div>
-
+    
     <script>
-        // Timer functionality
-        let timer;
-        let isRunning = false;
-        let timeRemaining = 0;
+        let popup = document.getElementById("popup");
 
-        // Event listener for the input field
-        document.getElementById("timeInput").addEventListener("input", function () {
-            let input = document.getElementById("timeInput").value;
-            // Automatically insert colon after the first 2 digits (hh:mm)
-            if (input.length === 2) {
-                input = input + ":";
-            }
-            if (input.length <= 5) {
-                document.getElementById("timeInput").value = input;
-            }
-        });
-
-        // Start button event listener
-        document.getElementById("startButton").addEventListener("click", function () {
-            const timeInput = document.getElementById("timeInput").value;
-            const [hours, minutes] = timeInput.split(":").map(Number);
-
-            // Validate input and ensure it's a valid time format
-            if (!isRunning && hours >= 0 && minutes >= 0 && minutes < 60 && timeInput.length === 5) {
-                timeRemaining = (hours * 60 * 60) + (minutes * 60);
-                isRunning = true;
-                startTimer();
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                popup.style.display = "block";
             } else {
-                alert("Please enter a valid time (hh:mm).");
+                popup.style.display = "none";
             }
         });
-
-        function startTimer() {
-            timer = setInterval(function () {
-                if (timeRemaining <= 0) {
-                    clearInterval(timer);
-                    isRunning = false;
-                    document.getElementById("timerDisplay").textContent = "00:00";
-                    alert("Time's up!");
-                } else {
-                    timeRemaining--;
-                    updateTimerDisplay();
-                }
-            }, 1000);
-        }
-
-        function updateTimerDisplay() {
-            const hours = Math.floor(timeRemaining / 3600);
-            const minutes = Math.floor((timeRemaining % 3600) / 60);
-            const seconds = timeRemaining % 60;
-
-            // Format time in hh:mm:ss
-            document.getElementById("timerDisplay").textContent =
-                `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
-        }
-
-        function padZero(num) {
-            return num < 10 ? "0" + num : num;
+        
+        function closePopup() {
+            popup.style.display = "none";
         }
     </script>
-
 </body>
-
 </html>
