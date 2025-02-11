@@ -18,6 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (openPIP) {
         openPIP.addEventListener("click", openPiP);
     }
+
+    const nextTaskButton = document.getElementById("nextTask");
+    if (nextTaskButton){
+        nextTaskButton.addEventListener("click", nextTask);
+    }
 });
 
 function parseTimeToSeconds(timeString) {
@@ -194,7 +199,37 @@ async function openPiP() {
 
         }, 500);
 
+        var nextButton = document.createElement("button");
+        nextButton.textContent = "Next task";
+        nextButton.addEventListener("click", nextTask);
+        pipWindow.document.body.appendChild(nextButton);
+
+
     } catch (error) {
         console.error('Failed to open PiP window:', error);
     }
+}
+
+
+function nextTask(){
+    if (taskList.length === 0) {
+        alert("No more tasks!");
+        return;
+    }
+
+    moveToFinishContainer(); // Move the completed task
+    taskList.shift(); // Remove the first task
+
+    localStorage.setItem('taskList', JSON.stringify(taskList));
+    document.getElementById("taskList_Index").innerHTML = printTaskList();
+
+    if (taskList.length > 0) {
+        document.getElementById("taskList").textContent = taskList[0].task;
+        document.getElementById("timeCountDown").textContent = taskList[0].time;
+        startCountdown(); // Restart timer for the next task
+    } else {
+        document.getElementById("taskList").textContent = "All tasks completed!";
+        document.getElementById("timeCountDown").textContent = "00:00:00";
+        clearInterval(interval);
+    }        
 }

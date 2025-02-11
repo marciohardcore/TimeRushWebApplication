@@ -1,5 +1,13 @@
 var taskList = [];
 
+const element = document.getElementById("nextButton");
+element.addEventListener("click", addNewItem);
+
+document.getElementById("box3").addEventListener("click", function() {
+    alert("Image clicked"); // Log to check if the click is detected
+    changeBackground();
+});
+
 function printTaskList(){
     let taskHTML = "";
     for (let i in taskList){
@@ -16,18 +24,12 @@ function addNewItem(){
     document.getElementById("taskList_Index").innerHTML = printTaskList();
 }
 
-const element = document.getElementById("nextButton");
-element.addEventListener("click", addNewItem);
 
 function countDown(){
     localStorage.setItem('taskList', JSON.stringify(taskList));
     window.location.href = './countdown.html';
 }
 
-document.getElementById("box3").addEventListener("click", function() {
-    alert("Image clicked"); // Log to check if the click is detected
-    changeBackground();
-});
 
 function changeBackground() {
     var imgSrc = document.querySelector('#box3 img').src; // Get the image source
@@ -43,8 +45,3 @@ function changeBackground() {
 
 
 
-
-
-
-// Incorrect: addNewItem() — This immediately invokes the function when the script runs.
-// Correct: addNewItem — This passes a reference to the function, which will only execute when the button is clicked.
