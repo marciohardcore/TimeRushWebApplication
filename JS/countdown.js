@@ -1,6 +1,6 @@
 var taskList = JSON.parse(localStorage.getItem('taskList') || '[]');
 var currentTask;
-var totalTime, timeLeft, interval;
+var totalTime, timeLeft, interval, totalTask = taskList.length;
 
 document.addEventListener("DOMContentLoaded", function () {
     if (taskList.length > 0) {
@@ -23,7 +23,18 @@ document.addEventListener("DOMContentLoaded", function () {
     if (nextTaskButton){
         nextTaskButton.addEventListener("click", nextTask);
     }
+
+    const toPage3 = document.getElementById("surrender");
+    if (toPage3){
+        toPage3.addEventListener("click", navPage3);
+    }
 });
+
+function navPage3(){
+    let score = (totalTask - taskList.length) / totalTask;
+    localStorage.setItem("score", score);
+    window.location.href = './page3.html';
+}
 
 function parseTimeToSeconds(timeString) {
     const [hours, minutes] = timeString.split(':').map(Number);
