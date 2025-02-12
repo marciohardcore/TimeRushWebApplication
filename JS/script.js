@@ -27,7 +27,18 @@ function addNewItem(){
 
 function countDown(){
     localStorage.setItem('taskList', JSON.stringify(taskList));
-    window.location.href = './countdown.html';
+
+    const loadingScreen = document.getElementById("loading");
+    const video = document.getElementById("loading-video");
+    
+    loadingScreen.classList.add("show");
+    video.currentTime = 0; // Reset video to start
+    video.play(); // Play the video
+    
+    video.onended = () => {
+        window.location.href = './countdown.html';
+    };
+
 }
 
 

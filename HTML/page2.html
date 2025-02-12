@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page 1</title>
+    <title>Page 2</title>
     <style>
         body {
             margin: 0;
@@ -20,8 +20,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            pointer-events: none;
+            opacity: 1;
             transition: opacity 0.5s ease-out;
             z-index: 9999;
         }
@@ -30,36 +29,31 @@
             height: 100%;
             object-fit: cover;
         }
-        .show {
-            opacity: 1;
-            pointer-events: all;
+        .hide {
+            opacity: 0;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-
-    <h1>Welcome to Page 1</h1>
-    <button onclick="navigateToNextPage()">Go to Page 2</button>
-    
     <div class="loading-screen" id="loading">
-        <video id="loading-video" muted playsinline>
+        <video autoplay muted playsinline id="loading-video">
             <source src="../theme/countdown5sec.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
 
+    <h1>Welcome to Page 2</h1>
+    <button onclick="navigateToPrevPage()">Go to Page 1</button>
+
     <script>
-        function navigateToNextPage() {
-            const loadingScreen = document.getElementById("loading");
-            const video = document.getElementById("loading-video");
-            
-            loadingScreen.classList.add("show");
-            video.currentTime = 0; // Reset video to start
-            video.play(); // Play the video
-            
-            video.onended = () => {
-                window.location.href = "page2.html";
-            };
+        window.addEventListener("load", function() {
+            document.getElementById("loading").classList.add("hide");
+        });
+
+        function navigateToPrevPage() {
+            window.location.href = "baiphong.html";
+
         }
     </script>
 </body>
