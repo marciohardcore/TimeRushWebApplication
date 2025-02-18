@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Rushing</title>
+
+    <link rel="stylesheet" href="../CSS/count_up.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+
+<body>
+    <input type="text" id="pre-enter-task-name" onfocus="this.value=''" placeholder="Enter your task name">
+
+    <div class="container">
+        <div id="time">
+            <span class="digit" id="hr">
+                00</span>
+            <span class="txt">:</span>
+            <span class="digit" id="min">
+                00</span>
+            <span class="txt">:</span>
+            <span class="digit" id="sec">
+                00</span>
+            <!-- <span class="txt">:</span>
+            <span class="digit" id="count">
+                00</span> -->
+        </div>
+        <div id="buttons">
+            <button class="btn" id="start">
+                Start</button>
+            <button class="btn" id="stop">
+                Stop</button>
+            <button class="btn" id="reset">
+                Reset</button>
+            <button class="btn" id = "pop-up-window">
+                Pop-up Window</button>    
+        </div>
+    </div>
+    <div>
+        <h3>Task finished</h3>
+        <ul id="taskList_Index"></ul>
+    </div>
+
+    <script src = "../JS/countUp.js"> </script>
+</body>
+
+</html>
+

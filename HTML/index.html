@@ -4,77 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- this tag is for SEO keyword -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> --> 
+    <title>Time Rushing</title>
 
     <link rel="stylesheet" href="../CSS/style.css">
-    <title>Time Rushing</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 
 <body>
 
     <header>
-        <h1 class = "title">TIME RUSHING</h1>
+        <h1 class="title">TIME RUSHING</h1>
     </header>
 
-    <div class = "introduction">
+    <div class="introduction">
         <p>TimeRush is a web application designed to help you stay on track with your tasks. Whether you're a student managing assignments or an office worker juggling deadlines, TimeRush provides a structured approach to time management. The countdown timer keeps you focused while the performance reviews give insights on how you can be more productive!
         </p>
     </div>
+
+    <div class="dropdown">
+        <button class="dropbtn">Dropdown</button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="podomoro.html">Podomoro</a>
+          <a href="countup.html">Count Up</a>
+        </div>
+      </div>
+            
     
-    <div class = "taskList">
+    <div class="taskList">
         <h2>Task List</h2>
-        <p id = "taskList_Index" ></p>
+        <ul id="taskList_Index"></ul>
     </div>
 
     <div class="task-listing">
         <h2>What's on your list today</h2>
 
         <label for="taskItem">Task Name</label><br>
-        <input type="text" id="taskItem" name="taskItemInput" placeholder="Enter the task title">
-
-        <br>
+        <input type="text" id="taskItem" name="taskItemInput" placeholder="Enter the task title"><br>
 
         <label for="timeInput">Duration</label><br>
-        <input type="text" id="timeInput" name="timeInput" 
-                placeholder="hh:mm" 
-                pattern="([0-1][0-9]|2[0-3]):[0-5][0-9]" 
-                required>
+        <input type="text" id="timeInput" name="timeInput" placeholder="hh:mm" pattern="([0-1][0-9]|2[0-3]):[0-5][0-9]" required>
+    </div>
+
+    <div class = "time-preset">
+        <button id = "set15">15:00</button>
+        <button id = "set30">30:00</button>
+        <button id = "set45">45:00</button>
     </div>
 
     <div class="button-container">
         <button id="nextButton">Next</button>
-        <button id="finishButton" onclick="countDown()">Done</button>
+        <button id="finishButton">Done</button>
     </div>
 
-    <div class = "theme_container">
+    <div class="theme_container">
         <h2>Theme</h2>
-        <div class="box" id = "box1"></div>
-        <div class="box" id = "box2">
-            <img src = "../theme/e23f47543257a934d01b071c06580b11.jpg" width="200" height="100"> 
+        <div class="box" id="box1"></div>
+        <div class="box" id="box2">
+            <img src="../theme/e23f47543257a934d01b071c06580b11.jpg" width="200" height="100">
         </div>
-        <div class="box" id = "box3">
-            <img src = "../theme/images (1).jpg" width="200" height="100"> 
+        <div class="box" id="box3">
+            <img src="../theme/images (1).jpg" width="200" height="100">
         </div>
     </div>
-    <script src="../JS/script.js"></script>
 
     <div class="loading-screen" id="loading">
         <video id="loading-video" muted playsinline>
             <source src="../theme/countdown5sec.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+        <h2 class="loading-text"> WAITING </h2>
     </div>
 
-        
-    
-    <div>
-        <footer>Footer</footer>
+    <footer>
         <p>Author: Marcio Chen, Bao Ngoc, Dit Hon, Minh Chau<br>
-        <a href="mailto:timerushforads@gmail.com">timerushforads@gmail.com</a></p>
-          
-    </div>
+            <a href="mailto:timerushforads@gmail.com">timerushforads@gmail.com</a> <br>
+            ✔ Cần có trang "Chính sách bảo mật", "Liên hệ", "Giới thiệu" để tăng cơ hội được duyệt.
+        </p>
+    </footer>
+
+    <script src="../JS/script.js"></script>
+
 </body>
 
 </html>

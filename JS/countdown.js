@@ -24,11 +24,108 @@ document.addEventListener("DOMContentLoaded", function () {
         nextTaskButton.addEventListener("click", nextTask);
     }
 
+    const skipTaskButton = document.getElementById("skipTask");
+    if (skipTaskButton){
+        skipTaskButton.addEventListener("click", skipTask);
+    }
+
     const toPage3 = document.getElementById("surrender");
     if (toPage3){
         toPage3.addEventListener("click", navPage3);
     }
 });
+
+function skipTask() {
+    showProgressModal().then((percent) => {
+        const updatedTask = taskList[0].task + " " + percent + "%"; // Add percentage to task
+        taskList.push({ task: updatedTask, time: taskList[0].time }); // Add updated task to end
+        taskList.shift(); // Move the task to the end
+
+        localStorage.setItem('taskList', JSON.stringify(taskList));
+        document.getElementById("taskList_Index").innerHTML = printTaskList();
+
+        if (taskList.length > 0) {
+            document.getElementById("taskList").textContent = taskList[0].task;
+            document.getElementById("timeCountDown").textContent = taskList[0].time;
+            startCountdown(); // Restart timer for the next task
+        } else {
+            document.getElementById("taskList").textContent = "All tasks completed!";
+            document.getElementById("timeCountDown").textContent = "00:00:00";
+            clearInterval(interval);
+        }        
+    
+    }).catch((error) => {
+        console.error("Error while skipping task:", error);
+    });
+
+}
+
+function showProgressModal() {
+    return new Promise((resolve, reject) => {
+        // Freeze the timer
+        if (interval) clearInterval(interval);
+
+        // Create a modal popup asking for completion percentage
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '50%';
+        modal.style.left = '50%';
+        modal.style.transform = 'translate(-50%, -50%)';
+        modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        modal.style.padding = '20px';
+        modal.style.borderRadius = '8px';
+        modal.style.color = '#fff';
+        modal.style.fontSize = '16px';
+        modal.style.textAlign = 'center';
+
+        // Add a message to the modal
+        const message = document.createElement('p');
+        message.textContent = 'How much of the task is completed?';
+        modal.appendChild(message);
+
+        // Create a progress bar (slider)
+        const slider = document.createElement('input');
+        slider.type = 'range';
+        slider.min = 0;
+        slider.max = 100;
+        slider.value = 0;
+        slider.style.width = '80%';
+        slider.style.marginBottom = '15px';
+        modal.appendChild(slider);
+
+        // Add a percentage label
+        const percentageLabel = document.createElement('span');
+        percentageLabel.textContent = `0%`;
+        modal.appendChild(percentageLabel);
+
+        // Update the label when the slider is changed
+        slider.addEventListener('input', function() {
+            percentageLabel.textContent = `${slider.value}%`;
+        });
+
+        // Create a button to submit the progress
+        const submitButton = document.createElement('button');
+        submitButton.textContent = 'Submit';
+        submitButton.style.padding = '10px 20px';
+        submitButton.style.fontSize = '16px';
+        submitButton.style.cursor = 'pointer';
+        modal.appendChild(submitButton);
+
+        // When the user clicks submit, handle the progress and close the modal
+        submitButton.addEventListener('click', function() {
+            const completionPercentage = slider.value;
+            resolve(completionPercentage); // Resolve the promise with the percentage
+            document.body.removeChild(modal); // Close the modal
+
+            // Resume countdown after the modal is closed
+            startCountdown();
+        });
+
+        // Add modal to the document body
+        document.body.appendChild(modal);
+    });
+}
+
 
 function navPage3(){
     let score = (totalTask - taskList.length) / totalTask;
@@ -99,8 +196,10 @@ function askTaskCompletion() {
         moveToFinishContainer();
         taskList.shift(); // Remove the first task
     } else {
-        taskList.push(taskList.shift()); // Move the task to the end
-        addTaskBackToList();
+        showProgressModal().then((percent) => {
+            taskList.push(taskList.shift()); // Move the task to the end
+        });
+        
     }
 
     localStorage.setItem('taskList', JSON.stringify(taskList));
@@ -119,15 +218,15 @@ function moveToFinishContainer() {
     document.querySelector('.finished-tasks ul').innerHTML += `<li>Task: ${currentTask.task}, Time: ${currentTask.time}</li>`;
 }
 
-function addTaskBackToList() {
+function addTaskBackToList(percent) {
     const notiElement = document.getElementById('noti');
     if (notiElement) {
-        notiElement.innerHTML = `<p>Task "${currentTask.task}" added back with progress</p>`;
+        notiElement.innerHTML = `<p>Task "${currentTask.task}" added back with ${percent}% progress</p>`;
         notiElement.style.visibility = 'visible';
 
         setTimeout(() => {
             notiElement.style.visibility = 'hidden';
-        }, 2000);
+        }, 7000);
     }
 }
 
