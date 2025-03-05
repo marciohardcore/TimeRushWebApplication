@@ -1,0 +1,47 @@
+.timer-mode{
+    display: flex;
+}
+#change-theme{
+    display: flex;
+}
+.edit-board{
+    display: flex;
+    flex-direction: row;
+}
+
+.button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 40px;
+    border-radius: 25px;
+    background: #ccc;
+    border: solid 3px white;
+    box-shadow: 0 0 20px -4px;
+    cursor: pointer;
+    outline: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+.inner {
+    position: absolute;
+    width: 95%;
+    height: 85%;
+    background: white;
+    border-radius: 25px;
+    filter: blur(5px);
+}
+.button span {
+    position: relative;
+    z-index: 1;
+    color: black;
+  }
+.button span {
+position: relative;
+z-index: 1;
+color: black;
+}
+
+

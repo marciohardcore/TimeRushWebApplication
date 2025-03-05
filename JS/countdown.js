@@ -1,12 +1,21 @@
-var taskList = JSON.parse(localStorage.getItem('taskList') || '[]');
+var taskList = JSON.parse(localStorage.getItem('taskList') || '[]').map(task => ({
+    progress: null,
+    content: { task: task.task, time: task.time }
+}));
+
 var currentTask;
 var totalTime, timeLeft, interval, totalTask = taskList.length;
 
 document.addEventListener("DOMContentLoaded", function () {
     if (taskList.length > 0) {
         document.getElementById("taskList_Index").innerHTML = printTaskList();
-        document.getElementById("taskList").textContent = taskList[0].task;
-        document.getElementById("timeCountDown").textContent = taskList[0].time;
+        document.getElementById("taskList").textContent = taskList[0].content.task;
+
+        let [hr,min,sec] = taskList[0].content.time.split(":");
+
+        document.getElementById("hr").textContent = hr;
+        document.getElementById("min").textContent = min;
+        document.getElementById("sec").textContent = sec;
     }
 
     const startButton = document.getElementById("startButton");
@@ -37,28 +46,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function skipTask() {
     showProgressModal().then((percent) => {
-        const updatedTask = taskList[0].task + " " + percent + "%"; // Add percentage to task
-        taskList.push({ task: updatedTask, time: taskList[0].time }); // Add updated task to end
-        taskList.shift(); // Move the task to the end
+        //check
+        if (taskList.length === 0) return;
 
-        localStorage.setItem('taskList', JSON.stringify(taskList));
+        //effect - interaction (CEI)
+        let skippedTask = taskList.shift(); // Remove first task
+        skippedTask.progress = percent; // Assign progress percentage
+        taskList.push(skippedTask); // Add to the end of the list
+
+        localStorage.setItem('taskList', JSON.stringify(taskList)); // Save changes
         document.getElementById("taskList_Index").innerHTML = printTaskList();
 
+        // Update UI for the new first task
         if (taskList.length > 0) {
-            document.getElementById("taskList").textContent = taskList[0].task;
-            document.getElementById("timeCountDown").textContent = taskList[0].time;
-            startCountdown(); // Restart timer for the next task
+            document.getElementById("taskList").textContent = taskList[0].content.task;
+            let [hr, min, sec] = taskList[0].content.time.split(":");
+            document.getElementById("hr").textContent = hr;
+            document.getElementById("min").textContent = min;
+            document.getElementById("sec").textContent = sec;
+            startCountdown(); // Restart timer for next task
         } else {
             document.getElementById("taskList").textContent = "All tasks completed!";
-            document.getElementById("timeCountDown").textContent = "00:00:00";
+            document.getElementById("hr").textContent = "00";
+            document.getElementById("min").textContent = "00";
+            document.getElementById("sec").textContent = "00";
             clearInterval(interval);
-        }        
-    
+        }
     }).catch((error) => {
         console.error("Error while skipping task:", error);
     });
-
 }
+
 
 function showProgressModal() {
     return new Promise((resolve, reject) => {
@@ -146,7 +164,7 @@ function startCountdown() {
 
     if (interval) clearInterval(interval); // Clear existing countdown
 
-    currentTask = taskList[0];
+    currentTask = taskList[0].content;
     totalTime = parseTimeToSeconds(currentTask.time);
     timeLeft = totalTime;
     
@@ -157,8 +175,9 @@ function startCountdown() {
         let minutes = Math.floor((timeLeft % 3600) / 60);
         let seconds = timeLeft % 60;
 
-        document.getElementById("timeCountDown").textContent = 
-            `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        document.getElementById("hr").textContent = String(hours).padStart(2, '0');
+        document.getElementById("min").textContent = String(minutes).padStart(2, '0');
+        document.getElementById("sec").textContent = String(seconds).padStart(2, '0');
 
         updateProgressBar();
 
@@ -174,7 +193,7 @@ function startCountdown() {
 function resetProgressBar() {
     let progressBar = document.getElementById("progress-bar");
     if (progressBar) {
-        progressBar.style.width = '100%';
+        progressBar.style.width = '98%';
     }
 }
 
@@ -182,12 +201,42 @@ function updateProgressBar() {
     let percentage = (timeLeft / totalTime) * 100;
     let progressBar = document.getElementById("progress-bar");
     if (progressBar) {
-        progressBar.style.width = `${percentage}%`;
+        progressBar.style.width = `${percentage - 2}%`;
     }
+
+    document.getElementById("progress-percentage").textContent = percentage;
+    
+    let progressText = document.getElementById("progress-percentage");
+    if (progressText) {
+        progressText.textContent = `${Math.round(percentage)}%`;
+    }
+
 }
 
+
 function printTaskList() {
-    return taskList.map(task => `<li>Task: ${task.task}, Time: ${task.time}</li>`).join('');
+    return taskList.map(task => {
+        let progressHTML = task.progress != null 
+            ? `<div class="progress-row">
+                 <div class="progress-circle" style="background: conic-gradient(black 0% ${task.progress}%, rgb(220, 220, 220) ${task.progress}% 100%)"></div>
+               </div>` 
+            : "";
+
+        let taskHTML = `
+        <li class = "general-row">
+            ${progressHTML}
+            <div class="taskList_Row">     
+                <div class="inner-row">
+                    <span class="span-align">
+                        <div class="task-name">${task.content.task}</div>
+                        <div class="task-time">${task.content.time}</div>
+                    </span>
+                </div>
+            </div>
+        </li>`;
+
+        return taskHTML;
+    }).join('');
 }
 
 function askTaskCompletion() {
@@ -206,29 +255,39 @@ function askTaskCompletion() {
     document.getElementById("taskList_Index").innerHTML = printTaskList();
 
     if (taskList.length > 0) {
-        document.getElementById("taskList").textContent = taskList[0].task;
-        document.getElementById("timeCountDown").textContent = taskList[0].time;
+        document.getElementById("taskList").textContent = taskList[0].content.task;
+
+        let [hr,min,sec] = taskList[0].content.time.split(":");
+
+        document.getElementById("hr").textContent = hr;
+        document.getElementById("min").textContent = min;
+        document.getElementById("sec").textContent = sec;
+
         startCountdown();
     } else {
         alert("All tasks are completed!");
     }
 }
 
+
 function moveToFinishContainer() {
-    document.querySelector('.finished-tasks ul').innerHTML += `<li>Task: ${currentTask.task}, Time: ${currentTask.time}</li>`;
+    let finishedTasksContainer = document.getElementById("finishedTasks");
+    if (!finishedTasksContainer) return;
+
+    let finishedTaskHTML = `
+    <li class="draggable taskList_Row">
+        <div class ="inner-row">
+            <span class = "span-align">
+                <div class = "task-name">${currentTask.task}</div>
+                <div class = "task-time">${currentTask.time}</div>
+            </span>
+        </div>
+    </li>
+    `;
+    finishedTasksContainer.innerHTML += finishedTaskHTML;
 }
 
-function addTaskBackToList(percent) {
-    const notiElement = document.getElementById('noti');
-    if (notiElement) {
-        notiElement.innerHTML = `<p>Task "${currentTask.task}" added back with ${percent}% progress</p>`;
-        notiElement.style.visibility = 'visible';
 
-        setTimeout(() => {
-            notiElement.style.visibility = 'hidden';
-        }, 7000);
-    }
-}
 
 async function openPiP() {
     if (!('documentPictureInPicture' in window)) {
@@ -257,13 +316,14 @@ async function openPiP() {
 
         // Current task display
         const taskNameElement = document.createElement("div");
-        taskNameElement.textContent = taskList.length > 0 ? `Current: ${taskList[0].task}` : "No Task";
+        taskNameElement.textContent = taskList.length > 0 ? `Current: ${taskList[0].content.task}` : "No Task";
         taskNameElement.style.marginBottom = '5px';
         pipWindow.document.body.appendChild(taskNameElement);
 
         // Timer display
         const timerElement = document.createElement("div");
-        timerElement.textContent = document.getElementById("timeCountDown").textContent;
+        timerElement.textContent = document.getElementById("hr").textContent + ':' + document.getElementById("min").textContent + ':' + document.getElementById("sec").textContent;
+
         timerElement.style.marginBottom = '10px';
         pipWindow.document.body.appendChild(timerElement);
 
@@ -290,13 +350,14 @@ async function openPiP() {
 
         // Upcoming task display
         const upcomingTask = document.createElement("div");
-        upcomingTask.textContent = taskList.length > 1 ? `Next: ${taskList[1].task}` : "No upcoming task";
+        upcomingTask.textContent = taskList.length > 1 ? `Next: ${taskList[1].content.task}` : "No upcoming task";
         upcomingTask.style.marginTop = '10px';
         pipWindow.document.body.appendChild(upcomingTask);
 
         // Function to update the PiP window dynamically
         setInterval(() => {
-            timerElement.textContent = document.getElementById("timeCountDown").textContent;
+            // timerElement.textContent = document.getElementById("timeCountDown").textContent;
+            timerElement.textContent = document.getElementById("hr").textContent + ':' + document.getElementById("min").textContent + ':' + document.getElementById("sec").textContent;
 
             let mainProgressBar = document.getElementById("progress-bar");
             if (mainProgressBar) {
@@ -304,8 +365,8 @@ async function openPiP() {
             }
 
             // Update current and upcoming task dynamically
-            taskNameElement.textContent = taskList.length > 0 ? `Current: ${taskList[0].task}` : "No Task";
-            upcomingTask.textContent = taskList.length > 1 ? `Next: ${taskList[1].task}` : "No upcoming task";
+            taskNameElement.textContent = taskList.length > 0 ? `Current: ${taskList[0].content.task}` : "No Task";
+            upcomingTask.textContent = taskList.length > 1 ? `Next: ${taskList[1].content.task}` : "No upcoming task";
 
         }, 500);
 
@@ -334,12 +395,20 @@ function nextTask(){
     document.getElementById("taskList_Index").innerHTML = printTaskList();
 
     if (taskList.length > 0) {
-        document.getElementById("taskList").textContent = taskList[0].task;
-        document.getElementById("timeCountDown").textContent = taskList[0].time;
+        document.getElementById("taskList").textContent = taskList[0].content.task;
+
+        let [hr,min,sec] = taskList[0].content.time.split(":");
+
+        document.getElementById("hr").textContent = hr;
+        document.getElementById("min").textContent = min;
+        document.getElementById("sec").textContent = sec;
         startCountdown(); // Restart timer for the next task
     } else {
         document.getElementById("taskList").textContent = "All tasks completed!";
-        document.getElementById("timeCountDown").textContent = "00:00:00";
+
+        document.getElementById("hr").textContent = '00';
+        document.getElementById("min").textContent = '00';
+        document.getElementById("sec").textContent = '00';
         clearInterval(interval);
     }        
 }

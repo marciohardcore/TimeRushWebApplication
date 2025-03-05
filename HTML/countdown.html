@@ -14,38 +14,77 @@
             <h1 class="title">Task Countdown Tracker</h1>
         </header>
 
-        <section class="task-list">
-            <h2>Task List</h2>
-            <p id="taskList_Index"></p>
-        </section>
-
-        <section class="work-container">
-            <h2>Current Task</h2>
-            <p id="noti"></p>
-            <ul id="taskList"></ul>
-        </section>
-
-        <section class="countdown-timer">
-            <h2>Countdown Timer</h2>
-            <label for="timeCountDown">Countdown:</label>
-            <span id="timeCountDown">00:00:00</span>
-            <button id="startButton">Start Countdown</button>
-
-            <div class="progress-bar-container">
-                <div id="progress-bar"></div>
+        <div class = "main-layout">
+            
+            <div class="task-list">
+                <h2>Task List</h2>
+                <p id="taskList_Index"></p>
             </div>
-        </section>
 
-        <section class="finished-tasks">
-            <h2>Finished Tasks</h2>
-            <ul id="finishedTasks"></ul>
-        </section>
+            <div class="countdown-timer">
+                <div class="current-task-name">
+                    <h2>Current Task</h2>
+                    <p id="noti"></p>
 
-        <section class = "button-items">
-            <button id = "surrender">Surrender</button>
-            <button id = "popup">Pop-up window</button>
-            <button id = "nextTask">Finish</button>
-            <button id = "skipTask">Skip</button>
+                    <div class="wrapper-task-name">
+                        <div class="inner-task-name"></div>
+                        <span id = "taskList"></span>
+                    </div>
+                </div>
+
+                
+
+                <div class = "time-input-container">
+                    <div class="wrapper-countdown">
+                        <div class="inner-countdown"></div>
+                        <span id = "hr">00</span>
+                    </div>
+
+                    <p>:</p>
+
+                    <div class="wrapper-countdown">
+                        <div class="inner-countdown"></div>
+                        <span id = "min">00</span>
+                    </div>
+
+                    <p>:</p>
+
+                    <div class="wrapper-countdown">
+                        <div class="inner-countdown"></div>
+                        <span id = "sec">00</span>
+                    </div>
+                </div>
+                
+                <button class="button-navigator" id = "startButton">
+                    <div class = "inner-navigator"></div><span>Start Countdown</span></button>
+                </div>
+
+            <div class="finished-tasks">
+                <h2>Finished Tasks</h2>
+                <ul id="finishedTasks"></ul>
+            </div>
+
+        </div>
+
+
+        <div class="progress-bar-container">
+            <div class = "inner-progress-bar"></div>
+            <div id="progress-bar"></div>
+            <div id="progress-percentage"></div>
+        </div>
+
+        <section class = "button-container">
+            <button class="button-navigator" id = "surrender">
+                <div class = "inner-navigator"></div><span>Surrender</span></button>
+
+            <button class="button-navigator" id = "popup">
+                <div class = "inner-navigator"></div><span>Pop-up window</span></button>
+            
+            <button class="button-navigator" id = "nextTask">
+                <div class = "inner-navigator"></div><span>Finish Task</span></button>
+                
+            <button class="button-navigator" id = "skipTask">
+                <div class = "inner-navigator"></div><span>Skip Task</span></button>
         </section>
     </div>
 
@@ -53,3 +92,4 @@
 </body>
 
 </html>
+

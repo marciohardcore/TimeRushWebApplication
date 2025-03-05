@@ -11,9 +11,15 @@
 </head>
 
 <body>
-    <input type="text" id="pre-enter-task-name" onfocus="this.value=''" placeholder="Enter your task name">
-
+    
+    
     <div class="container">
+
+        <div class="wrapper-name-input">
+            <div class="inner-name-input"></div>
+            <input type="text" id="task-item-name" name="taskItemInput" placeholder="Enter the task title" autocomplete="off">
+        </div> 
+        
         <div id="time">
             <span class="digit" id="hr">
                 00</span>
@@ -23,21 +29,25 @@
             <span class="txt">:</span>
             <span class="digit" id="sec">
                 00</span>
-            <!-- <span class="txt">:</span>
-            <span class="digit" id="count">
-                00</span> -->
         </div>
-        <div id="buttons">
-            <button class="btn" id="start">
-                Start</button>
-            <button class="btn" id="stop">
-                Stop</button>
-            <button class="btn" id="reset">
-                Reset</button>
-            <button class="btn" id = "pop-up-window">
-                Pop-up Window</button>    
+
+        <div class="buttons">
+            <button class="button" id = "start">
+                <div class = "inner"></div><span>Start</span></button>
+    
+            <button class="button" id = "stop">
+                <div class = "inner"></div><span>Stop</span></button>
+
+            <button class="button" id = "reset">
+                <div class = "inner"></div><span>Reset</span></button>
+
+            <button class="button" id = "pop-up-window">
+                <div class = "inner"></div><span>Pop-up Window</span></button>
+            
         </div>
+
     </div>
+    
     <div>
         <h3>Task finished</h3>
         <ul id="taskList_Index"></ul>

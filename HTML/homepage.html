@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/homepage.css">
+    <title>Welcome</title>
+
+</head>
+
+<body>
+        <head>TIMERUSH</head>
+        <p>TimeRush is a web application designed to help you stay on track with<br>your tasks. Whether you're a student managing assignments or an office <br> worker juggling deadlines, TimeRush provides a structured approach to <br> time management. The countdown timer keeps you focused while the <br> performance reviews give insights on how you can be more productive!
+        </p>
+
+
+        <button class="button" id = "get-started">
+            <div class = "inner"></div><span>GET STARTED</span></button>
+
+        <div class = "edit-board">
+            
+            <div class="timer-mode">
+                <label>
+                    <input type="radio" name="mode" value="basic" checked>
+                    BASIC
+                </label>
+                <label>
+                    <input type="radio" name="mode" value="pomodoro">
+                    POMODORO
+                </label>
+                <label>
+                    <input type="radio" name="mode" value="countup">
+                    COUNT UP
+                </label>
+            </div>
+
+            <button class="button" id = "change-theme">
+                <div class = "inner"></div><span>CHANGE THEME</span></button>
+    
+        </div>
+
+        <!-- <div class="loading-screen" id="loading">
+            <video id="loading-video" muted playsinline>
+                <source src="../theme/countdown5sec.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <h2 class="loading-text"> WAITING </h2>
+        </div> -->
+        <!-- https://www.youtube.com/watch?v=Rwr4lGQ0Qk -->
+
+        <script src = "../JS/navigator.js"></script>
+</body>
+</html>

@@ -13,11 +13,13 @@ startBtn.addEventListener('click', function () {
     timer = true;
     stopWatch();
 
-    taskNameInput = document.getElementById("pre-enter-task-name");
+    taskNameInput = document.getElementById("task-item-name");
 
 });
 
-stopBtn.addEventListener('click', function () {
+stopBtn.addEventListener('click', stopItem);
+
+function stopItem() {
     timer = false;
     let savedTime = document.getElementById('hr').innerHTML + ":" + 
                     document.getElementById('min').innerHTML + ":" + 
@@ -49,7 +51,7 @@ stopBtn.addEventListener('click', function () {
 
     if (taskNameInput != ''){
         inputBar.value = taskNameInput.value;
-        document.getElementById("pre-enter-task-name").value = '';
+        document.getElementById("task-item-name").value = '';
 
     }
     // Create span for saved time
@@ -61,8 +63,7 @@ stopBtn.addEventListener('click', function () {
 
     // Append list item to the task list
     taskListElement.append(listItem);
-});
-
+}
 resetBtn.addEventListener('click', function () {
     timer = false;
     hour = 0;
@@ -81,6 +82,11 @@ if (openPIP) {
     openPIP.addEventListener("click", openPiP);
 }
 
+
+let pipWindow;
+let pipTaskNameElement;
+let pipTimerElement;
+
 async function openPiP() {
     if (!('documentPictureInPicture' in window)) {
         alert('documentPictureInPicture API not supported.');
@@ -88,7 +94,13 @@ async function openPiP() {
     }
 
     try {
-        const pipWindow = await documentPictureInPicture.requestWindow({
+        // Close the existing PiP window if it's already open
+        if (pipWindow) {
+            pipWindow.close();
+        }
+
+        // Request a new PiP window
+        pipWindow = await documentPictureInPicture.requestWindow({
             width: 300,
             height: 180
         });
@@ -106,31 +118,48 @@ async function openPiP() {
             padding: '10px'
         });
 
-        // Current task display
-        const taskNameElement = document.createElement("div");
-        taskNameElement.textContent = taskNameInput != '' ? `Current: ${taskNameInput.value}` : "Untitled";
-        taskNameElement.style.marginBottom = '5px';
-        pipWindow.document.body.appendChild(taskNameElement);
+        // Task name display
+        pipTaskNameElement = document.createElement("div");
+        pipTaskNameElement.textContent = getTaskName();
+        pipTaskNameElement.style.marginBottom = '5px';
+        pipWindow.document.body.appendChild(pipTaskNameElement);
 
         // Timer display
-        const timerElement = document.createElement("div");
-        timerElement.textContent = `${document.getElementById('hr').innerHTML}:${document.getElementById('min').innerHTML}:${document.getElementById('sec').innerHTML}`;
-        timerElement.style.marginBottom = '10px';
-        pipWindow.document.body.appendChild(timerElement);
+        pipTimerElement = document.createElement("div");
+        pipTimerElement.textContent = getTimerValue();
+        pipTimerElement.style.marginBottom = '10px';
+        pipWindow.document.body.appendChild(pipTimerElement);
 
-        // Function to update the PiP window dynamically
-        setInterval(() => {
-            // Update the PiP window timer display using the current values from the main document
-            timerElement.textContent = `${document.getElementById('hr').innerHTML}:${document.getElementById('min').innerHTML}:${document.getElementById('sec').innerHTML}`;
-        }, 0);
+        // Function to update PiP dynamically
+        setInterval(updatePiP, 10);
 
-        var stopButton = document.createElement("button");
+        // Stop button in PiP
+        let stopButton = document.createElement("button");
         stopButton.textContent = "Stop";
+        stopButton.addEventListener("click", stopItem);
         pipWindow.document.body.appendChild(stopButton);
 
     } catch (error) {
         console.error('Failed to open PiP window:', error);
     }
+}
+
+function updatePiP() {
+    if (pipWindow) {
+        pipTaskNameElement.textContent = `Current: ${getTaskName()}`;
+        pipTimerElement.textContent = getTimerValue();
+    }
+}
+
+// Helper function to get task name
+function getTaskName() {
+    let taskInput = document.getElementById("task-item-name");
+    return taskInput && taskInput.value ? taskInput.value : "Untitled";
+}
+
+// Helper function to get timer value
+function getTimerValue() {
+    return `${document.getElementById('hr').innerHTML}:${document.getElementById('min').innerHTML}:${document.getElementById('sec').innerHTML}`;
 }
 
 function stopWatch() {
@@ -177,7 +206,6 @@ function stopWatch() {
         document.getElementById('hr').innerHTML = hrString;
         document.getElementById('min').innerHTML = minString;
         document.getElementById('sec').innerHTML = secString;
-        // document.getElementById('count').innerHTML = countString;
         setTimeout(stopWatch, 10);
     }
 }
