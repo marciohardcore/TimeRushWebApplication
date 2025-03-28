@@ -1,0 +1,256 @@
+@font-face {
+    font-family: 'Candy Beans';
+    src: url('../fonts/Candy Beans.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Softizen';
+    src: url('../fonts/Softizen.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+body {
+    font-family: 'Softizen', sans-serif;
+
+}
+
+.title, .button {
+    font-family: 'Softizen', sans-serif;
+}
+
+.sub-heading{
+    font-family: 'Candy Beans', sans-serif;
+}
+
+.timer-mode{
+    display: flex;
+    
+}
+#change-theme{
+    display: flex;
+    width: 220px;
+    height: 50px;
+
+}
+.edit-board{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 35px;
+}
+
+.image-style{
+    width:140px;
+    height:140px;
+    padding-right: 10px;
+}
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 40vh; 
+    width: 100%;
+    font-size:6rem;
+    color:rgb(234, 234, 234);
+    -webkit-text-stroke: 0.03em rgb(207, 124, 0);
+    margin-top: 40px;
+}
+
+.logo_name{
+    display: flex;
+    flex-direction: row;
+}
+
+.sub-heading {
+    font-size: 1.3rem;
+    color: #000000;
+    line-height: 1.6;
+    max-width: 80%;
+    -webkit-text-stroke: 0.01em rgb(221, 213, 203);
+}
+
+
+#get-started {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 9px auto; 
+    text-align: center;
+    width: 195px;
+    height: 50px;
+}
+
+.button {
+    position: relative;
+    border-radius: 200px;
+    background: rgb(189,119,27);
+    background: linear-gradient(0deg, rgba(189,119,27,1) 0%, rgba(248,196,127,1) 59%, rgba(250,224,190,1) 100%);
+    border: none;
+    padding: 15px 30px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    z-index: 2; /* Ensure button is on top */
+    
+}
+
+/* Background layer behind the button */
+.bg-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    background: inherit; /* Copies button gradient */
+    box-shadow:  0px 5px 5px #856439, 0px 9px 0px #a76f26;
+    z-index: -2; /* Moves it further back */
+}
+
+.button:hover {
+/*   background: linear-gradient(to bottom, #e76f51, #f4a261); */
+  transform: translateY(3px);
+}
+
+.button:active {
+  box-shadow: 2px 2px 0px #a76f26;
+  transform: translateY(2px);
+}
+
+ 
+.button span {
+    position: relative;
+    z-index: 1;
+    color:rgb(243, 231, 231);
+    -webkit-text-stroke: 0.03em rgb(201, 120, 0);
+}
+
+.right-box{
+    margin-left: 120px;
+}
+
+
+.radio-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.radio-group input {
+    display: none;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 134px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 10px;
+    background: rgb(189,119,27);
+    background: linear-gradient(0deg, rgba(189,119,27,1) 0%, rgba(248,196,127,1) 59%, rgba(250,224,190,1) 100%);
+    box-shadow: 0px 5px 5px #856439, 0px 9px 0px #a76f26, inset -2px 0 3px #936d3f, inset 2px 0 3px #936d3f;
+    z-index: 1;
+
+
+}
+
+.radio-container {
+    display:flex;
+    flex-direction: row;
+}
+
+/* Inner shadow layer for the radio buttons */
+.radio-container-inner {
+    position: absolute;
+    bottom: -8px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 12px;
+    background: #777471;
+    border-radius: 30px;
+    filter: blur(3px);
+    z-index: 1;
+    opacity: 70%;
+}
+
+.radio-group label span {
+    position: relative;
+    z-index: 1;
+    color:rgb(243, 231, 231);
+    -webkit-text-stroke: 0.03em rgb(179, 109, 5);
+}
+
+.radio-group input:checked + label span {
+    color: rgb(3, 2, 0) ;
+    -webkit-text-stroke: none;
+    transform: translateY(2px);
+}
+
+.radio-group label:hover {
+    transform: translateY(3px);
+}
+
+
+.radio-group label:first-of-type {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    box-shadow: 0px 5px 5px #856439, 0px 9px 0px #a76f26, inset -1px 0 3px #936d3f;
+
+
+    
+}
+
+.radio-group label:last-of-type {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 0px 5px 5px #856439, 0px 9px 0px #a76f26, inset 1px 0 3px #936d3f;
+
+}
+
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: -15px;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+.author {
+    position: absolute; /* Fix it to a position */
+    bottom: 10px; /* Adjust this value as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Ensure true centering */
+    color: rgb(234, 234, 234);
+    -webkit-text-stroke: 0.03em rgb(207, 124, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Ensures it spans across */
+}

@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Rushing</title>
 
-    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/style_day_theme.css">
+    <!-- <link rel="stylesheet" href="../CSS/style.css"> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 
@@ -26,47 +27,52 @@
             <div class="input-task-list">
         
                 <h2>Task name</h2>
-                        
-                <div class="wrapper-name-input">
-                    <div class="inner-name-input"></div>
-                    <input type="text" id="task-item-name" name="taskItemInput" placeholder="Enter the task title" autocomplete="off">
-                </div>
-                <br>
+                      
                 
-                <div class="time-input-container">
-                    <div class="wrapper">
-                        <div class="inner"></div>
-                        <input type="text" class="time-input" id="hourInput" placeholder="00">
+                <div class = "countdown-timer">
+                    <div class="wrapper-task-name">
+                        <div class="inner-task-name"></div>
+                        <input type="text" id="task-item-name" name="taskItemInput" placeholder="Enter the task title" autocomplete="off">
                     </div>
-                    <p>:</p>
-                    <div class="wrapper">
-                        <div class="inner"></div>
-                        <input type="text" class="time-input" id="minuteInput" placeholder="00">
+                    <br>
+                    
+                    <div class="time-input-container">
+                        <div class="wrapper-task-name" id = "hour-input">
+                            <div class="inner-task-name"></div>
+                            <input type="text" class="time-input" id="hourInput" placeholder="00">
+                        </div>
+                        <p>:</p>
+                        <div class="wrapper-task-name" id = "minute-input">
+                            <div class="inner-task-name"></div>
+                            <input type="text" class="time-input" id="minuteInput" placeholder="00">
+                        </div>
+                        <p>:</p>
+                        <div class="wrapper-task-name" id = "second-input">
+                            <div class="inner-task-name"></div>
+                            <input type="text" class="time-input" id="secondInput" placeholder="00">
+                        </div>
                     </div>
-                    <p>:</p>
-                    <div class="wrapper">
-                        <div class="inner"></div>
-                        <input type="text" class="time-input" id="secondInput" placeholder="00">
-                    </div>
+    
+
                 </div>
                 
                 <div class = "time-preset">
-                    <button class="button" id = "set15">
-                        <div class = "inner"></div><span>15:00</span></button>
+                    <button class="button-navigator" id = "set15">
+                        <div class = "inner-navigator"></div><span>15:00</span> <div class = "bg-navigator-button"></div></button>
                     
-                    <button class="button" id = "set30"> 
-                        <div class = "inner"></div><span>30:00</span></button>
+                    <button class="button-navigator" id = "set30"> 
+                        <div class = "inner-navigator"></div><span>30:00</span> <div class = "bg-navigator-button"></div></button>
 
-                    <button class="button" id = "set45">
-                        <div class = "inner"></div><span>45:00</span></button>
+                    <button class="button-navigator" id = "set45">
+                        <div class = "inner-navigator"></div><span>45:00</span> <div class = "bg-navigator-button"></div></button>
                 </div>
             
                 <div class="button-container">
                     <button class="button-navigator" id = "nextButton">
-                        <div class = "inner-navigator"></div><span>Next</span></button>
+                        <div class = "inner-navigator"></div><span>Next</span> <div class = "bg-navigator-button"></div></button>
 
                     <button class="button-navigator" id = "finishButton">
-                        <div class = "inner-navigator"></div><span>Done</span></button>
+                        <div class = "inner-navigator"></div><span>Done</span> <div class = "bg-navigator-button"></div></button>
                 </div>
             
             </div>

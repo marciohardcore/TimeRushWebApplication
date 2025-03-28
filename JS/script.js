@@ -21,6 +21,7 @@ function printTaskList() {
             </span>
         </div>
     </li>
+
     `;
     });
     document.getElementById("taskList_Index").innerHTML = taskHTML;

@@ -531,6 +531,25 @@ color: black;
     margin-bottom:10px;
 
 }
+
+#hour-input, #minute-input, #second-input{
+    width: 70px;
+    height: 40px;
+
+}
+
+#set15, #set30, #set45{
+    width: 85px;
+    height: 35px;
+    
+}
+
+#nextButton, #finishButton{
+    width: 95px;
+    height: 40px;
+}
+
+
 .inner-task-name{
     position: absolute;
     width: 97%;

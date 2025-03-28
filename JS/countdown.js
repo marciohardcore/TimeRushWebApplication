@@ -3,11 +3,17 @@ var taskList = JSON.parse(localStorage.getItem('taskList') || '[]').map(task => 
     content: { task: task.task, time: task.time }
 }));
 
+
 var currentTask;
 var totalTime, timeLeft, interval, totalTask = taskList.length;
 
 document.addEventListener("DOMContentLoaded", function () {
     if (taskList.length > 0) {
+
+        let itemCount = taskList.length; // Counting the number of items
+        document.getElementById("taskList_Index").style.height = (itemCount * 70) + "px"; // Setting dynamic height
+        document.getElementById("finishedTasks").style.height = (itemCount * 70) + "px"; // Setting dynamic height
+        
         document.getElementById("taskList_Index").innerHTML = printTaskList();
         document.getElementById("taskList").textContent = taskList[0].content.task;
 
@@ -215,6 +221,7 @@ function updateProgressBar() {
 
 
 function printTaskList() {
+    
     return taskList.map(task => {
         let progressHTML = task.progress != null 
             ? `<div class="progress-row">
@@ -275,7 +282,7 @@ function moveToFinishContainer() {
     if (!finishedTasksContainer) return;
 
     let finishedTaskHTML = `
-    <li class="draggable taskList_Row">
+    <li class="taskList_Row">
         <div class ="inner-row">
             <span class = "span-align">
                 <div class = "task-name">${currentTask.task}</div>
