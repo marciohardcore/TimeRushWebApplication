@@ -616,3 +616,25 @@ color: black;
     align-items: center; /* Keep vertical alignment */
 
 }    
+
+
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: -15px;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+
+.author {
+    position: absolute; /* Fix it to a position */
+    bottom: 10px; /* Adjust this value as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Ensure true centering */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Ensures it spans across */
+}

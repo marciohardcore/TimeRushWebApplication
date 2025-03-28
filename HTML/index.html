@@ -4,90 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Rushing</title>
+    <link id = "theme-style" rel="stylesheet" href="../CSS/homepage.css">
+    <title>Welcome</title>
 
-    <link rel="stylesheet" href="../CSS/style_day_theme.css">
-    <!-- <link rel="stylesheet" href="../CSS/style.css"> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 
 <body>
-    <div class = "allowed-dimension">
-        <header>
-            <h1 class="title">What's on your list today?</h1>
-        </header>
-    
-        <div class = "task-container">
-
-            <div class="task-list">
-                <h2 class = "task-list-title">Task List</h2>
-                <ul id="taskList_Index"></ul>
+        <div class = "intro">
+            <div class = "logo_name">
+                <img src="../theme/Logo.png" alt="Profile Picture" class="image-style">
+                <head class = "title">TIMERUSH</head>    
             </div>
+            <p class = "sub-heading">TimeRush is a web application designed to help you stay on track with<br>your tasks. Whether you're a student managing assignments or an office <br> worker juggling deadlines, TimeRush provides a structured approach to <br> time management. The countdown timer keeps you focused while the <br> performance reviews give insights on how you can be more productive!
+            </p>    
+        </div>
         
-            <div class="input-task-list">
-        
-                <h2>Task name</h2>
-                      
-                
-                <div class = "countdown-timer">
-                    <div class="wrapper-task-name">
-                        <div class="inner-task-name"></div>
-                        <input type="text" id="task-item-name" name="taskItemInput" placeholder="Enter the task title" autocomplete="off">
-                    </div>
-                    <br>
-                    
-                    <div class="time-input-container">
-                        <div class="wrapper-task-name" id = "hour-input">
-                            <div class="inner-task-name"></div>
-                            <input type="text" class="time-input" id="hourInput" placeholder="00">
-                        </div>
-                        <p>:</p>
-                        <div class="wrapper-task-name" id = "minute-input">
-                            <div class="inner-task-name"></div>
-                            <input type="text" class="time-input" id="minuteInput" placeholder="00">
-                        </div>
-                        <p>:</p>
-                        <div class="wrapper-task-name" id = "second-input">
-                            <div class="inner-task-name"></div>
-                            <input type="text" class="time-input" id="secondInput" placeholder="00">
-                        </div>
-                    </div>
-    
+        <button class="button" id = "get-started">
+            <div class = "inner"></div><span>GET STARTED</span> <div class = "bg-button"></div></button>
 
-                </div>
-                
-                <div class = "time-preset">
-                    <button class="button-navigator" id = "set15">
-                        <div class = "inner-navigator"></div><span>15:00</span> <div class = "bg-navigator-button"></div></button>
-                    
-                    <button class="button-navigator" id = "set30"> 
-                        <div class = "inner-navigator"></div><span>30:00</span> <div class = "bg-navigator-button"></div></button>
-
-                    <button class="button-navigator" id = "set45">
-                        <div class = "inner-navigator"></div><span>45:00</span> <div class = "bg-navigator-button"></div></button>
-                </div>
+        <div class = "edit-board">
             
-                <div class="button-container">
-                    <button class="button-navigator" id = "nextButton">
-                        <div class = "inner-navigator"></div><span>Next</span> <div class = "bg-navigator-button"></div></button>
-
-                    <button class="button-navigator" id = "finishButton">
-                        <div class = "inner-navigator"></div><span>Done</span> <div class = "bg-navigator-button"></div></button>
-                </div>
+            <div class="radio-group">
+                <div class="radio-container">
+                    <div class="radio-container-inner"></div> 
+                    
+                    <input type="radio" id="optionA" name="option" value="countdown" checked>
+                    <label for="optionA"><span>Count Down</span></label>
             
+                    <input type="radio" id="optionB" name="option" value="pomodoro">
+                    <label for="optionB"><span>Pomodoro</span></label>
+            
+                    <input type="radio" id="optionC" name="option" value="countup">
+                    <label for="optionC"><span>Count Up</span></label>
+
+                </div>
+                <div class = "bg-button"></div>
+
+            </div>
+
+            <div class = "right-box">
+                <button class="button" id = "change-theme">
+                    <div class = "inner"></div><span>CHANGE THEME</span> <div class = "bg-button"></div></button>
             </div>
             
         </div>
-    
-        <footer>
-            <p>Author: Marcio Chen, Bao Ngoc, Dit Hon, Minh Chau<br>
-                <a href="mailto:timerushforads@gmail.com">timerushforads@gmail.com</a> <br>
-            </p>
-        </footer>
-    
-        <script src="../JS/script.js"></script>
-    
-    </div>
-    
+
+        <div>
+            <p class = "author">This cuti is created by Bao Ngoc, Khuong Duy, Dit Hon, Minh Chau</p>
+        </div>
+        <script src = "../JS/navigator.js"></script>
 </body>
 </html>

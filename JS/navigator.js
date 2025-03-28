@@ -2,19 +2,17 @@ let link;
 
 document.getElementById("get-started").addEventListener("click", function() {
     let selectedMode = document.querySelector('input[name="option"]:checked').value;
-    
+    let theme = localStorage.getItem('theme-name') || "../CSS/homepage.css";
+
+    localStorage.setItem('theme-name', theme);
+
     // Redirect based on selection
     if (selectedMode === "countdown") {
-        window.location.href = "../HTML/index.html";
-        localStorage.setItem('theme-name', link);
-        
+        window.location.href = "../HTML/homepage.html";
     } else if (selectedMode === "pomodoro") {
         window.location.href = "../HTML/pomodoro.html";
-        localStorage.setItem('theme-name', link);
-
     } else if (selectedMode === "countup") {
         window.location.href = "../HTML/countUp.html";
-        localStorage.setItem('theme-name', link);
 
     }
 });
@@ -22,9 +20,11 @@ document.getElementById("get-started").addEventListener("click", function() {
 document.getElementById("change-theme").addEventListener("click", () =>{
     link = document.getElementById("theme-style");
 
+    localStorage.setItem('theme-name', "");
+
     if (link.getAttribute("href") === "../CSS/homepage.css"){
         link.setAttribute("href", "../CSS/day_theme.css");
-
+        localStorage.setItem('theme-name', "day_theme");
         // Check if the video already exists to prevent duplicates
         if (!document.getElementById("myVideo")) {
             let video = document.createElement("video");
@@ -48,12 +48,16 @@ document.getElementById("change-theme").addEventListener("click", () =>{
     }
     else if (link.getAttribute("href") === "../CSS/day_theme.css"){
         link.setAttribute("href", "../CSS/night_theme.css");
+        localStorage.setItem('theme-name', "night_theme");
+
         let newVideo = document.getElementById("myVideo");
         if (newVideo) newVideo.remove();
 
     }
     else{
         link.setAttribute("href", "../CSS/homepage.css");
+        localStorage.setItem('theme-name', "");
+
     }
 });
 

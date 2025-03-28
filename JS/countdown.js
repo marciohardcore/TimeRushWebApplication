@@ -7,6 +7,38 @@ var taskList = JSON.parse(localStorage.getItem('taskList') || '[]').map(task => 
 var currentTask;
 var totalTime, timeLeft, interval, totalTask = taskList.length;
 
+window.onload = function() {
+    let theme = localStorage.getItem("theme-name");
+
+    let link = document.getElementById("theme-style");
+
+    if (link && theme == 'day_theme') {
+        link.setAttribute("href", `../CSS/style_day_theme.css`);
+
+        if (!document.getElementById("myVideo")) {
+            let video = document.createElement("video");
+            video.setAttribute("autoplay", "true");
+            video.setAttribute("muted", "true");
+            video.setAttribute("loop", "true");
+            video.setAttribute("id", "myVideo");
+
+            let source = document.createElement("source");
+            source.setAttribute("src", "../theme/daytheme.mov");
+            source.setAttribute("type", "video/mp4");
+
+            video.appendChild(source);
+            document.body.prepend(video); // Adds the video in the background
+
+            video.playbackRate = 0.75; // Adjust this value (0.5 = half speed)
+            // video.onloadedmetadata = () => smoothPlaybackSpeed(video, 1.0, 0.5, 2000); // Gradually slow to 0.5 over 2s
+
+        }
+
+    }
+
+};
+
+
 document.addEventListener("DOMContentLoaded", function () {
     if (taskList.length > 0) {
 

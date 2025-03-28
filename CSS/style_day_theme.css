@@ -628,6 +628,14 @@ color:rgb(34, 34, 34);
     
 }
 
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: -15px;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -2;
+}
 
 .circle {
     width: 25px; 
@@ -680,3 +688,15 @@ color:rgb(34, 34, 34);
 }    
 
 
+.author {
+    position: absolute; /* Fix it to a position */
+    bottom: 10px; /* Adjust this value as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Ensure true centering */
+    color: rgb(234, 234, 234);
+    -webkit-text-stroke: 0.03em rgb(207, 124, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Ensures it spans across */
+}
